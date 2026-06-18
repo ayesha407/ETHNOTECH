@@ -1,0 +1,104 @@
+mysql> use aisha;
+Database changed
+mysql> create table sales(id int primary key,product_name varchar(20),amount int);
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> insert into sales(id,product_name,amount)values(1,'laptop',10000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into sales(id,product_name,amount)values(2,'mobile',35000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into sales(id,product_name,amount)values(3,'tv',15000),(4,'washing machine',60000);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select *from sales;
++----+-----------------+--------+
+| id | product_name    | amount |
++----+-----------------+--------+
+|  1 | laptop          |  10000 |
+|  2 | mobile          |  35000 |
+|  3 | tv              |  15000 |
+|  4 | washing machine |  60000 |
++----+-----------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select(max)from sales;
+ERROR 1054 (42S22): Unknown column 'max' in 'field list'
+mysql> select max(amount)from sales;
++-------------+
+| max(amount) |
++-------------+
+|       60000 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> select avg(amount)from sales;
++-------------+
+| avg(amount) |
++-------------+
+|  30000.0000 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> select sum(amount) from sales;
++-------------+
+| sum(amount) |
++-------------+
+|      120000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select product_name,avg(amount) as average_sale from sales group by product_name;
++-----------------+--------------+
+| product_name    | average_sale |
++-----------------+--------------+
+| laptop          |   10000.0000 |
+| mobile          |   35000.0000 |
+| tv              |   15000.0000 |
+| washing machine |   60000.0000 |
++-----------------+--------------+
+4 rows in set (0.01 sec)
+
+mysql> select *from amount where amount>15000;
+ERROR 1146 (42S02): Table 'aisha.amount' doesn't exist
+mysql> select *from sales amount where amount>15000;
++----+-----------------+--------+
+| id | product_name    | amount |
++----+-----------------+--------+
+|  2 | mobile          |  35000 |
+|  4 | washing machine |  60000 |
++----+-----------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select product_name,sum(amount)from sales where amount>15000 group by product_name having sum(amount)>15000;
++-----------------+-------------+
+| product_name    | sum(amount) |
++-----------------+-------------+
+| mobile          |       35000 |
+| washing machine |       60000 |
++-----------------+-------------+
+2 rows in set (0.01 sec)
+
+mysql> select product_name from sales where amount>(select avg(amount)from sales);
++-----------------+
+| product_name    |
++-----------------+
+| mobile          |
+| washing machine |
++-----------------+
+2 rows in set (0.00 sec)
+
+mysql> select *from sales where amount in (select amount from sales);
++----+-----------------+--------+
+| id | product_name    | amount |
++----+-----------------+--------+
+|  1 | laptop          |  10000 |
+|  2 | mobile          |  35000 |
+|  3 | tv              |  15000 |
+|  4 | washing machine |  60000 |
++----+-----------------+--------+
+4 rows in set (0.04 sec)
+
+mysql>
