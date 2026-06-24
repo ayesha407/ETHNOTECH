@@ -1,0 +1,134 @@
+use studenttudentdb
+switched to db studenttudentdb
+use studentdb
+switched to db studentdb
+show student
+MongoshInvalidInputError: [COMMON-10001] 'student' is not a valid argument for "show".
+show collections
+db.student.insertOne({})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a3a30b9fee2965580738aab')
+}
+db.student.insertOne({name: "teja",id:1,city:"Nellore" })
+{
+  acknowledged: true,
+  insertedId: ObjectId('6a3a3110fee2965580738aac')
+}
+db.student.findOne({name:"teja"})
+{
+  _id: ObjectId('6a3a3110fee2965580738aac'),
+  name: 'teja',
+  id: 1,
+  city: 'Nellore'
+}
+db.student.insertMany([{name: "teja",id:1,city:"Nellore" },{name: "bhanu",id:2,city:"Nellore" },{name: "abhi",id:3,city:"Nellore" }])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6a3a33c0fee2965580738aad'),
+    '1': ObjectId('6a3a33c0fee2965580738aae'),
+    '2': ObjectId('6a3a33c0fee2965580738aaf')
+  }
+}
+db.student.updateOne({name:"teja"},{$set:{age:26}},{name:"Arun"},{$set:{age:24}},{name:"karthik"},{$set:{age:20}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.student.find({age:($gt:24)})
+SyntaxError: Unexpected token, expected "," (1:25)
+
+> 1 | db.student.find({age:($gt:24)})
+    |                          ^
+db.student.find({age:{$gt:24}})
+{
+  _id: ObjectId('6a3a3110fee2965580738aac'),
+  name: 'teja',
+  id: 1,
+  city: 'Nellore',
+  age: 26
+}
+db.student.find({sor:[{city:'hyderabad'},{city:'Banglore'}]})
+ 
+db.student.find({$or:[{city:'hyderabad'},{city:'Banglore'}]})
+db.student.find({$or:[{city:'nwllore'},{city:'Banglore'}]})
+db.student.find({$or:[{city:'nellore'},{city:'Banglore'}]})
+db.student.find({$or:[{city:'nellore'},{city:'Banglore'}]})
+db.student.find({$or:[{city:'nellore'},{city:'nellore'}]})
+db.student.find({$or:[{city:'Nellore'},{city:'Nellore'}]})
+{
+  _id: ObjectId('6a3a3110fee2965580738aac'),
+  name: 'teja',
+  id: 1,
+  city: 'Nellore',
+  age: 26
+}
+{
+  _id: ObjectId('6a3a33c0fee2965580738aad'),
+  name: 'teja',
+  id: 1,
+  city: 'Nellore'
+}
+{
+  _id: ObjectId('6a3a33c0fee2965580738aae'),
+  name: 'bhanu',
+  id: 2,
+  city: 'Nellore'
+}
+{
+  _id: ObjectId('6a3a33c0fee2965580738aaf'),
+  name: 'abhi',
+  id: 3,
+  city: 'Nellore'
+}
+db.student.find().sort({age:1})
+{
+  _id: ObjectId('6a3a30b9fee2965580738aab')
+}
+{
+  _id: ObjectId('6a3a33c0fee2965580738aad'),
+  name: 'teja',
+  id: 1,
+  city: 'Nellore'
+}
+{
+  _id: ObjectId('6a3a33c0fee2965580738aae'),
+  name: 'bhanu',
+  id: 2,
+  city: 'Nellore'
+}
+{
+  _id: ObjectId('6a3a33c0fee2965580738aaf'),
+  name: 'abhi',
+  id: 3,
+  city: 'Nellore'
+}
+{
+  _id: ObjectId('6a3a3110fee2965580738aac'),
+  name: 'teja',
+  id: 1,
+  city: 'Nellore',
+  age: 26
+}
+db.student.find().limit(2)
+{
+  _id: ObjectId('6a3a30b9fee2965580738aab')
+}
+{
+  _id: ObjectId('6a3a3110fee2965580738aac'),
+  name: 'teja',
+  id: 1,
+  city: 'Nellore',
+  age: 26
+}
+db.student.distinct()
+MongoServerError[IDLFailedToParse]: BSON field 'distinctCommandRequest.key' is missing but a required field
+db.student.distinct("city")
+[ 'Nellore' ]
+db.student.distinct("name")
+[ 'abhi', 'bhanu', 'teja' ]
+studentdb
